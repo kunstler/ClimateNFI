@@ -10,7 +10,7 @@ list(
   ),
   tar_target(
     coords,
-    read_csv(coords_file)
+    read.csv(coords_file)
   ),  
   tar_target(
     pr_2018,
