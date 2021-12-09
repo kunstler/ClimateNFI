@@ -29,6 +29,6 @@ extract_terra_var_years <- function(coords, mask,
   names(list_var_years) <- paste0(var, "_", years)
   res <- as.matrix(bind_cols(list_var_years))
   
-  write.csv(bind_cols(coords, res), file = file.path("output", paste0(var, ".csv")))
+  write.csv(bind_cols(coords, as.data.frame(res)), file = file.path("output", paste0(var, ".csv")), row.names = FALSE)
   return(file.path("output", paste0(var, ".csv")))
 }

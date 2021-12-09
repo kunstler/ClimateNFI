@@ -31,7 +31,7 @@ extract_wc_var <- function(coords, var = "srad"){
   stacks <- mask(stacks, mask)
   res <- terra::extract(stacks, coords)
   if(nrow(res) != nrow(coords)) stop("missing plots")
-  write.csv(bind_cols(coords, res[, -1]), file = file.path("output", paste0(var, ".csv")))
+  write.csv(bind_cols(coords, as.data.frame(res[, -1])), file = file.path("output", paste0(var, ".csv")), row.names = FALSE)
   return(file.path("output", paste0("wc_",var, ".csv")))
   
   return(file.path("output", paste0("wc_",var, ".csv")))
