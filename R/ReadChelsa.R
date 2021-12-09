@@ -45,7 +45,7 @@ extract_chelsa_var_years <- function(coords, mask,
   
  list_var_years <- vector("list")
   for (y in seq_len(length(years))){
-    list_var_years[y] <- extract_chelsa_var_year(coords, mask, var, years[y])
+    list_var_years[[y]] <- extract_chelsa_var_year(coords, mask, var, years[y])
   }
  names(list_var_years) <- paste0(var, "_", years)
  res <- as.matrix(bind_cols(list_var_years))
