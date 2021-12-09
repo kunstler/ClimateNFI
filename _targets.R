@@ -4,6 +4,7 @@ lapply(grep("R$", list.files("R"), value = TRUE), function(x) source(file.path("
 
 options(tidyverse.quiet = TRUE)
 tar_option_set(packages = c("terra", "rgdal", "dplyr", "ggplot2"))
+
 list(
   tar_target(coords_file,"data/NFI/FUNDIV_coordinates.csv",
              format = "file"
@@ -48,6 +49,22 @@ list(
     pet_terra_1983_2018,
     extract_terra_var_years(coords, var = "pet"),
     format = "file"
+  )  ,
+  tar_target(
+    soil_terra_1983_2018,
+    extract_terra_var_years(coords, var = "soil"),
+    format = "file"
+  )  ,
+  tar_target(
+    srad_terra_1983_2018,
+    extract_terra_var_years(coords, var = "srad"),
+    format = "file"
+  )  ,
+  tar_target(
+    srad_wc,
+    extract_wc_var(coords, var = "srad"),
+    format = "file"
   )  
+  
 )
 
