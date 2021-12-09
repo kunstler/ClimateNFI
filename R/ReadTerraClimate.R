@@ -19,7 +19,7 @@ extract_terra_var_year <- function(coords, var = "pet", year = 2018){
 
 extract_terra_var_years <- function(coords, mask, 
                                      var = "pr", 
-                                     years= 1983:2018){
+                                     years= 2017:2018){
   
   list_var_years <- vector("list")
   for (y in seq_len(length(years))){
