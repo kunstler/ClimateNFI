@@ -5,9 +5,13 @@ lapply(grep("R$", list.files("R"), value = TRUE), function(x) source(file.path("
 options(tidyverse.quiet = TRUE)
 tar_option_set(packages = c("terra", "rgdal", "dplyr", "ggplot2"))
 list(
-  tar_target(coords,"data/NFI/FUNDIV_coordinates.csv",
+  tar_target(coords_file,"data/NFI/FUNDIV_coordinates.csv",
              format = "file"
   ),
+  tar_target(
+    coords,
+    read_csv(coords_file)
+  ),  
   tar_target(
     pr_2018,
     extract_chelsa_var_year(coords, mask)
