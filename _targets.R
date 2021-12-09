@@ -5,7 +5,7 @@ lapply(grep("R$", list.files("R"), value = TRUE), function(x) source(file.path("
 options(tidyverse.quiet = TRUE)
 tar_option_set(packages = c("terra", "rgdal", "dplyr", "ggplot2"))
 list(
-  tar_target(coords,"NFI/FUNDIV_coordinates.csv",
+  tar_target(coords,"data/NFI/FUNDIV_coordinates.csv",
              format = "file"
   ),
   tar_target(
@@ -35,7 +35,10 @@ list(
   tar_target(
     tasmax_chelsa_1983_2018,
     extract_chelsa_var_years(coords, mask, var = "tasmax")
+  )  ,
+  tar_target(
+    pet_terra_1983_2018,
+    extract_terra_var_years(coords, var = "pet")
   )  
-  
 )
 
