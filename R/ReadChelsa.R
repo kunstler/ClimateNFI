@@ -24,7 +24,7 @@ read_chelsa_stack_var_year <- function(var = 'pr', year = 2018,
   files   <- list.files( file.path(path, var), full.names = F)
   ms <- c(paste0("0",1:9), 10:12)
   
-  files_sel <- paste0("CHELSA_pr_",ms,"_",year, "_V.2.1.tif")
+  files_sel <- paste0("CHELSA_", var, "_",ms,"_",year, "_V.2.1.tif")
   if(sum(!files_sel %in% files)) stop("error missing files")
   layer_t <- rast(file.path(path, var,files_sel[1]))
   layers <- layer_t
