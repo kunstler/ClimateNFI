@@ -47,7 +47,7 @@ extract_chelsa_var_year <- function(coords, var = "pr", year = 2018){
 
 extract_chelsa_var_years <- function(coords,  
                                      var = "pr", 
-                                     years= 2015:2018){
+                                     years= 1983:2018){
   
  list_var_years <- vector("list")
   for (y in seq_len(length(years))){
