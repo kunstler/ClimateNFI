@@ -22,27 +22,27 @@ list(
     extract_chelsa_var_years(coords, mask)
   ),
   tar_target(
-    mask,
-    read_mask
+    m,
+    read_mask()
   )  ,
   tar_target(
     pr_chelsa_1983_2018,
-    extract_chelsa_var_years(coords, mask, var = "pr"),
+    extract_chelsa_var_years(coords, m, var = "pr"),
     format = "file"
   )  ,
   tar_target(
     tas_chelsa_1983_2018,
-    extract_chelsa_var_years(coords, mask, var = "tas"),
+    extract_chelsa_var_years(coords, m, var = "tas"),
     format = "file"
   )  ,
   tar_target(
     tasmin_chelsa_1983_2018,
-    extract_chelsa_var_years(coords, mask, var = "tasmin"),
+    extract_chelsa_var_years(coords, m, var = "tasmin"),
     format = "file"
   )  ,
   tar_target(
     tasmax_chelsa_1983_2018,
-    extract_chelsa_var_years(coords, mask, var = "tasmax"),
+    extract_chelsa_var_years(coords, m, var = "tasmax"),
     format = "file"
   )  ,
   tar_target(

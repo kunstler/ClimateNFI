@@ -1,8 +1,8 @@
 read_mask <- function(path = "data/mask"){
   require(terra)
   require(rgdal)
-  mask <- rast(file.path(path, "chelsa-w5e5v1.0_obsclim_mask_30arcsec_global.nc"))
-  return(mask)
+  m <- rast(file.path(path, "chelsa-w5e5v1.0_obsclim_mask_30arcsec_global.nc"))
+  return(m)
 }
 
 
@@ -29,23 +29,23 @@ return(layers)
   
 }
 
-extract_chelsa_var_year <- function(coords, mask, var = "pr", year = 2018){
+extract_chelsa_var_year <- function(coords, m, var = "pr", year = 2018){
   coords <- coords[, c("longitude", "latitude")] 
   
   stacks <- read_chelsa_stack_var_year(var, year)
-  stacks <- mask(stacks, mask)
+  stacks <- terra::mask(stacks, m)
   res <- terra::extract(stacks, coords)
   if(nrow(res) != nrow(coords)) stop("missing plots")
   return(res[, -1])
 }
 
-extract_chelsa_var_years <- function(coords, mask, 
+extract_chelsa_var_years <- function(coords, m, 
                                      var = "pr", 
                                      years= 2015:2018){
   
  list_var_years <- vector("list")
   for (y in seq_len(length(years))){
-    list_var_years[[y]] <- extract_chelsa_var_year(coords, mask, var, years[y])
+    list_var_years[[y]] <- extract_chelsa_var_year(coords, m, var, years[y])
   }
  names(list_var_years) <- paste0(var, "_", years)
  res <- as.matrix(bind_cols(list_var_years))
