@@ -5,6 +5,14 @@ read_mask <- function(path = "data/mask"){
   return(m)
 }
 
+add_mask_coords <- function(coords){
+  library(terra)
+  m <- read_mask()
+  coords2 <- coords[, c("longitude", "latitude")] 
+  res <- terra::extract(m, coords2)
+  coords$mask <- res$mask
+  return(coords)
+}
 
 read_chelsa_stack_var_year <- function(var = 'pr', year = 2018, 
                                 path = "data/envicloud/chelsa/chelsa_V2/GLOBAL/monthly"){
@@ -18,34 +26,32 @@ read_chelsa_stack_var_year <- function(var = 'pr', year = 2018,
   
   files_sel <- paste0("CHELSA_pr_",ms,"_",year, "_V.2.1.tif")
   if(sum(!files_sel %in% files)) stop("error missing files")
-
-  layers <- rast(file.path(path, var,files_sel[1]))
+  layer_t <- rast(file.path(path, var,files_sel[1]))
+  layers <- layer_t
   for (m in 2:12){
     layer_t <- rast(file.path(path, var,files_sel[m]))
     add(layers) <- layer_t
   }
 names(layers) <- gsub("_V.2.1", "", gsub("CHELSA_", "", names(layers)))
 return(layers)
-  
 }
 
-extract_chelsa_var_year <- function(coords, m, var = "pr", year = 2018){
+extract_chelsa_var_year <- function(coords, var = "pr", year = 2018){
   coords <- coords[, c("longitude", "latitude")] 
   
   stacks <- read_chelsa_stack_var_year(var, year)
-  stacks <- terra::mask(stacks, m)
   res <- terra::extract(stacks, coords)
   if(nrow(res) != nrow(coords)) stop("missing plots")
   return(res[, -1])
 }
 
-extract_chelsa_var_years <- function(coords, m, 
+extract_chelsa_var_years <- function(coords,  
                                      var = "pr", 
                                      years= 2015:2018){
   
  list_var_years <- vector("list")
   for (y in seq_len(length(years))){
-    list_var_years[[y]] <- extract_chelsa_var_year(coords, m, var, years[y])
+    list_var_years[[y]] <- extract_chelsa_var_year(coords, var, years[y])
   }
  names(list_var_years) <- paste0(var, "_", years)
  res <- as.matrix(bind_cols(list_var_years))
@@ -57,7 +63,7 @@ extract_chelsa_var_years <- function(coords, m,
 # tic()
 # res <- extract_var_year()
 # toc()
-# sum(is.na(res[, 1]))
+# sum(is.na(res[, 1])) 
 
 
 

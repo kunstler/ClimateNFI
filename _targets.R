@@ -10,39 +10,39 @@ list(
              format = "file"
   ),
   tar_target(
-    coords,
+    coords_t,
     read.csv(coords_file)
   ),  
   tar_target(
+    coords,
+    add_mask_coords(coords_t)
+  ),
+  tar_target(
     pr_2018,
-    extract_chelsa_var_year(coords, mask)
+    extract_chelsa_var_year(coords)
   ),
   tar_target(
     pr_all,
-    extract_chelsa_var_years(coords, mask)
+    extract_chelsa_var_years(coords)
   ),
   tar_target(
-    m,
-    read_mask()
-  )  ,
-  tar_target(
     pr_chelsa_1983_2018,
-    extract_chelsa_var_years(coords, m, var = "pr"),
+    extract_chelsa_var_years(coords, var = "pr"),
     format = "file"
   )  ,
   tar_target(
     tas_chelsa_1983_2018,
-    extract_chelsa_var_years(coords, m, var = "tas"),
+    extract_chelsa_var_years(coords, var = "tas"),
     format = "file"
   )  ,
   tar_target(
     tasmin_chelsa_1983_2018,
-    extract_chelsa_var_years(coords, m, var = "tasmin"),
+    extract_chelsa_var_years(coords, var = "tasmin"),
     format = "file"
   )  ,
   tar_target(
     tasmax_chelsa_1983_2018,
-    extract_chelsa_var_years(coords, m, var = "tasmax"),
+    extract_chelsa_var_years(coords, var = "tasmax"),
     format = "file"
   )  ,
   tar_target(
