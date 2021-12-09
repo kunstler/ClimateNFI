@@ -3,7 +3,7 @@
 read_terra_netcdf <- function(var ="pet", year = "2018", path= "data/terraclimate"){
   
   pet <- rast(file.path(path, paste0("TerraClimate_", var, "_", year, ".nc")))
-  
+  pet
 }
 
 extract_terra_var_year <- function(coords, var = "pet", year = 2018){
