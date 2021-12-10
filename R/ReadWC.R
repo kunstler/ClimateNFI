@@ -10,7 +10,7 @@ read_wc_stack_rad <- function(var = 'srad',
   files   <- list.files( file.path(path), full.names = F)
   ms <- c(paste0("0",1:9), 10:12)
 
-  files_sel <- paste0(" wc2.1_30s_srad_",ms, ".tif")
+  files_sel <- paste0("wc2.1_30s_srad_",ms, ".tif")
   if(sum(!files_sel %in% files)) stop("error missing files")
   
   layers <- rast(file.path(path, var,files_sel[1]))
