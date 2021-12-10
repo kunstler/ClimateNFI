@@ -55,6 +55,11 @@ compute_sgdd_all <- function(){
   return(res)
 }
 
+# library(tictoc)
+# tic()
+# mat_sgdd <- compute_sgdd_all()
+# toc()
+
 
 ## function to compute sum of degree days above 5.56
 fun.sgdd <-  function(temp,threshold.sgdd =  5.56){
