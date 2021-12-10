@@ -17,8 +17,9 @@ to transfer data
 
 
 To mount the smb server on quadri
+`git clone ...`
 
-`sudo mount -t cifs //195.221.110.170/projets/chelsa climate --verbose -o rw,user=georges.kunstler,domain=irstea.priv,vers=1.0`
+`sudo mount -t cifs //195.221.110.170/projets/chelsa ClimateNFI/data --verbose -o rw,user=georges.kunstler,domain=irstea.priv,vers=1.0`
 
 To download chelsa data
 
