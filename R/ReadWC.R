@@ -27,7 +27,7 @@ read_wc_stack_rad <- function(var = 'srad',
 extract_wc_var <- function(coords, var = "srad"){
   coords <- coords[, c("longitude", "latitude")] 
   
-  stacks <- read_wc_stack_var(var)
+  stacks <- read_wc_stack_rad(var)
   stacks <- mask(stacks, mask)
   res <- terra::extract(stacks, coords)
   if(nrow(res) != nrow(coords)) stop("missing plots")
