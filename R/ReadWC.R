@@ -26,9 +26,7 @@ read_wc_stack_rad <- function(var = 'srad',
 
 extract_wc_var <- function(coords, var = "srad"){
   coords <- coords[, c("longitude", "latitude")] 
-  mm <- read_mask()
   stacks <- read_wc_stack_rad(var)
-  stacks <- mask(stacks, mm)
   res <- terra::extract(stacks, coords)
   if(nrow(res) != nrow(coords)) stop("missing plots")
   write.csv(bind_cols(coords, as.data.frame(res[, -1])), file = file.path("output", paste0(var, ".csv")), row.names = FALSE)
