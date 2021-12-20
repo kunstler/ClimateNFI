@@ -55,8 +55,7 @@ get_Tmean_Moreno <- function(country.in = c("spain", "germany", "finland"),
     print("---Getting Tmean")
     yr.max.in <- stack(paste(dirclimate,"/", country.in[i],"/", tiles.in[i],"/Tmax",year.in[i],"_",tiles.in[i],".tif", sep=""))
     yr.min.in <- stack(paste(dirclimate,"/", country.in[i],"/", tiles.in[i],"/Tmin",year.in[i],"_",tiles.in[i],".tif", sep=""))
-    #yr.mean.in_i <- ((yr.max.in + yr.min.in)/2)/100
-    yr.mean.in_i <- yr.min.in
+    yr.mean.in_i <- ((yr.max.in + yr.min.in)/2)/100
     yr.mean.in[[i]] <- yr.mean.in_i
   }
   names(yr.mean.in) <- paste(country.in, tiles.in, year.in, sep = "_")
