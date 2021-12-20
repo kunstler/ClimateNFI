@@ -3,7 +3,7 @@ library(targets)
 lapply(grep("R$", list.files("R"), value = TRUE), function(x) source(file.path("R", x)))
 
 options(tidyverse.quiet = TRUE)
-tar_option_set(packages = c("terra", "rgdal", "dplyr", "ggplot2"))
+tar_option_set(packages = c("terra", "rgdal", "dplyr", "ggplot2", "RCurl", "httr"))
 
 list(
   tar_target(coords_file,"data/NFI/FUNDIV_coordinates.csv",
