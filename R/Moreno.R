@@ -1,9 +1,10 @@
 #' Read Moreno daily climatic data
 #'
 #' @description Download, write in disk and and return as stack Moreno climate file from FTP server
-#' @param tiles.in Tile to download, as character (ex: "I_2")
-#' @param country.in country where the tile is located, as character (ex: "france")
-#' @param year.in country where the tile is located, as character (ex: "france")
+#' @param tiles.in Character vector containing tiles to download (ex: "I_2")
+#' @param country.in Character vector containing the countries of each tile (ex: "france")
+#' @param year.in Numeric vector containing the years
+#' @return A list, each element being a stack containing meant temperature for a given tile-year combination. 
 get_Tmean_Moreno <- function(country.in = c("spain", "germany", "finland"), 
                              tiles.in = c("A_9", "F_6", "I_2"), 
                              year.in = c(2000, 2000, 2000)){

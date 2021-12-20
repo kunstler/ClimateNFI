@@ -64,7 +64,11 @@ list(
     srad_wc,
     extract_wc_var(coords, var = "srad"),
     format = "file"
-  )  
+  ), 
+  tar_target(
+    tmean_moreno,
+    get_Tmean_Moreno()
+  )
   
 )
 
