@@ -64,13 +64,6 @@ list(
     srad_wc,
     extract_wc_var(coords, var = "srad"),
     format = "file"
-  ), 
-  tar_target(
-    tmean_moreno,
-    extract_Tmean_Moreno(tiles.in = c("A_9", "F_6", "I_2"), 
-                         country.in = c("spain", "germany", "finland"), 
-                         year.in = c(2000, 2000, 2000), 
-                         coords_t[, c("plotcode", "longitude", "latitude")])
   )
   
 )
