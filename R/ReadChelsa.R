@@ -18,13 +18,14 @@ read_chelsa_stack_var_year <- function(var = 'pr', year = 2018,
                                 path = "data/envicloud/chelsa/chelsa_V2/GLOBAL/monthly"){
   require(terra)
   require(rgdal)
-  if(!var %in% c("pr", "tas", "tasmax", "tasmin")) stop("not good var")
+  if(!var %in% c("pr", "pet", "tas", "tasmax", "tasmin")) stop("not good var")
   
   xstring <- paste('_',var, '_', sep='')
   files   <- list.files( file.path(path, var), full.names = F)
   ms <- c(paste0("0",1:9), 10:12)
   
-  files_sel <- paste0("CHELSA_", var, "_",ms,"_",year, "_V.2.1.tif")
+  var_file <- ifelse(var == "pet", "pet_penman", var)
+  files_sel <- paste0("CHELSA_", var_file, "_",ms,"_",year, "_V.2.1.tif")
   if(sum(!files_sel %in% files)) stop("error missing files")
   layer_t <- rast(file.path(path, var,files_sel[1]))
   layers <- layer_t
