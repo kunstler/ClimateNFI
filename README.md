@@ -32,7 +32,8 @@ wget -nc -c -nd --input-file=terraclimat_wget.txt (PET soil water content and ra
 
 I also dowloaded the long-term average monthly radiation series from worldclim
 
-This R cran code require the package `drake`.
+This R cran code require the package `target`.
+Use targets::tar_make_clustermq(workers = N) with N:number of cores to use for running the code in parallel
 
 In addition the following packages are required:
 
