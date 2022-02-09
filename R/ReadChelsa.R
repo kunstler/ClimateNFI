@@ -37,29 +37,42 @@ names(layers) <- gsub("_V.2.1", "", gsub("CHELSA_", "", names(layers)))
 return(layers)
 }
 
-extract_chelsa_var_year <- function(coords, var = "pr", year = 2018){
-  coords <- coords[, c("longitude", "latitude")] 
+extract_and_save_chelsa_var_year <- function(coords, var = "pr", year = 2018) {
+  print(paste0(var, " - ", year))
   
+  # Get rasters for the given variable and year
   stacks <- read_chelsa_stack_var_year(var, year)
-  res <- terra::extract(stacks, coords)
+  
+  # Extract values from rasters at coordinates in coords dataframe
+  res <- terra::extract(stacks, coords[, c("longitude", "latitude")])
+  
+  # Check number of rows
   if(nrow(res) != nrow(coords)) stop("missing plots")
-  return(res[, -1])
+  
+  # Add values to the original coord dataset (remove mask and ID columns to values dataset)
+  res <- cbind(coords, res) %>% select(-mask, -ID)
+  
+  # Save the file
+  write.table(res, file.path("output", paste0("chelsa_", var, "_", year, ".csv")),
+              row.names = FALSE, sep = ";", dec = ".")
+  
+  return(res)
 }
 
-extract_chelsa_var_years <- function(coords,  
-                                     var = "pr", 
-                                     years= 1983:2018){
-  
- list_var_years <- vector("list")
-  for (y in seq_len(length(years))){
-    print(years[y])
-    list_var_years[[y]] <- extract_chelsa_var_year(coords, var, years[y])
-  }
- names(list_var_years) <- paste0(var, "_", years)
- res <- as.matrix(bind_cols(list_var_years))
- write.csv(bind_cols(coords, as.data.frame(res)), file = file.path("output", paste0(var, ".csv")), row.names = FALSE)
- return(file.path("output", paste0(var, ".csv")))
-}
+# extract_chelsa_var_years <- function(coords,  
+#                                      var = "pr", 
+#                                      years= 1983:2018){
+#   
+#  list_var_years <- vector("list")
+#   for (y in seq_len(length(years))){
+#     print(years[y])
+#     list_var_years[[y]] <- extract_chelsa_var_year(coords, var, years[y])
+#   }
+#  names(list_var_years) <- paste0(var, "_", years)
+#  res <- as.matrix(bind_cols(list_var_years))
+#  write.csv(bind_cols(coords, as.data.frame(res)), file = file.path("output", paste0(var, ".csv")), row.names = FALSE)
+#  return(file.path("output", paste0(var, ".csv")))
+# }
 
 # library(tictoc)
 # tic()
