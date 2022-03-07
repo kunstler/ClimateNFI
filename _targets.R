@@ -12,18 +12,22 @@ tar_option_set(packages = c("terra", "rgdal", "dplyr", "tidyr"))
 list(
   
   # Coordinates file
-  tar_target(coords_file, "data_perso/data_coord_plots.csv", format = "file"),
+  tar_target(coords_file, "data/data_coord_plots_test.csv", format = "file"),
   tar_target(coords_t, read.table(coords_file, sep = ";", dec = ".", header = T)),  
   tar_target(coords, add_mask_coords(coords_t)),
   
-  # Use dynamic branching through years (vector of interest years)
+  # Use dynamic branching through years and variables
   tar_target(years, seq(1983,2018)),
-  
-  # Use dynamic branching through variables (vector of)
   tar_target(vars, c("pet", "pr", "tas", "tasmin", "tasmax")),
   
   # Extract chelsa values (produce on file per variable per year with values for all coordinates)
-  tar_target(chelsa_values, extract_and_save_chelsa_var_year(coords, vars, years), pattern = cross(vars, years))
+  tar_target(chelsa_raw_vars_years, extract_chelsa_var_year(coords, vars, years, path = "data/chelsa"), pattern = cross(vars, years), iteration = "list"),
+  
+  # Merge chelsa files (produce one file per years)
+  tar_target(chelsa_merged_years, merge_chelsa_year(chelsa_raw_vars_years, years), pattern = map(years), iteration = "list"),
+  
+  # Save chelsa files
+  tar_target(chelsa_filepaths, save_chelsa_year(chelsa_merged_years), pattern = map(chelsa_merged_years))
   
   
   # tar_target(
