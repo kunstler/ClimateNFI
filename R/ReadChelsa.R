@@ -5,6 +5,7 @@ read_mask <- function(path = "data/mask"){
   return(m)
 }
 
+
 add_mask_coords <- function(coords){
   library(terra)
   m <- read_mask()
@@ -14,8 +15,8 @@ add_mask_coords <- function(coords){
   return(coords)
 }
 
-read_chelsa_stack_var_year <- function(var = 'pr', year = 2018, 
-                                path = "data/envicloud/chelsa/chelsa_V2/GLOBAL/monthly"){
+
+read_chelsa_stack_var_year <- function(var = 'pr', year = 2018, path){
   require(terra)
   require(rgdal)
   if(!var %in% c("pr", "pet", "tas", "tasmax", "tasmin")) stop("not good var")
@@ -37,11 +38,12 @@ names(layers) <- gsub("_V.2.1", "", gsub("CHELSA_", "", names(layers)))
 return(layers)
 }
 
-extract_and_save_chelsa_var_year <- function(coords, var = "pr", year = 2018) {
-  print(paste0(var, " - ", year))
-  
+
+extract_chelsa_var_year <- function(coords, var = "pr", year = 2018, 
+                                    path = "data/envicloud/chelsa/chelsa_V2/GLOBAL/monthly") {
+
   # Get rasters for the given variable and year
-  stacks <- read_chelsa_stack_var_year(var, year)
+  stacks <- read_chelsa_stack_var_year(var, year, path)
   
   # Extract values from rasters at coordinates in coords dataframe
   res <- terra::extract(stacks, coords[, c("longitude", "latitude")])
@@ -49,14 +51,35 @@ extract_and_save_chelsa_var_year <- function(coords, var = "pr", year = 2018) {
   # Check number of rows
   if(nrow(res) != nrow(coords)) stop("missing plots")
   
-  # Add values to the original coord dataset (remove mask and ID columns to values dataset)
-  res <- cbind(coords, res) %>% select(-mask, -ID)
+  # Add values to the original coord dataset (remove ID first column to res dataset)
+  res <- data.frame(plotcode = coords$plotcode, res[,-1])
   
-  # Save the file
-  write.table(res, file.path("output", paste0("chelsa_", var, "_", year, ".csv")),
-              row.names = FALSE, sep = ";", dec = ".")
+  return(list(var = var, year = year, data = res))
+}
+
+
+merge_chelsa_year <- function(chelsa_vars_years, year) {
   
-  return(res)
+  # True if year element in each list is equal to the given year
+  keep_data <- sapply(chelsa_vars_years, function(X) X$year == year)
+  
+  # Select dataframe from lists of the given year
+  chelsa_year_merged <- lapply(chelsa_vars_years[keep_data], function(X) X$data)
+  
+  # Bind df for all vars and all years into a single one for each year with all vars
+  chelsa_year_merged <- chelsa_year_merged %>% purrr::reduce(full_join, by = "plotcode")
+  
+  # Return result as a list
+  return(list(year = year, data = chelsa_year_merged))
+}
+
+
+save_chelsa_year <- function(chelsa_year, path = "output") {
+  
+  filepath <- file.path(path, paste0("chelsa_", chelsa_year$year, ".csv"))
+  write.table(chelsa_year$data, filepath, sep = ";", dec = ".", row.names = F)
+  
+  return(filepath)
 }
 
 # extract_chelsa_var_years <- function(coords,  
