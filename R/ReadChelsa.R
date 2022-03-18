@@ -16,7 +16,8 @@ add_mask_coords <- function(coords){
 }
 
 
-read_chelsa_stack_var_year <- function(var = 'pr', year = 2018, path){
+read_chelsa_stack_var_year <- function(var = 'pr', year = 2018, 
+                                       path = "data/envicloud/chelsa/chelsa_V2/GLOBAL/monthly"){
   require(terra)
   require(rgdal)
   if(!var %in% c("pr", "pet", "tas", "tasmax", "tasmin")) stop("not good var")

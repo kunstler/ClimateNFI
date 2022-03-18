@@ -21,7 +21,9 @@ list(
   tar_target(vars, c("pet", "pr", "tas", "tasmin", "tasmax")),
   
   # Extract chelsa values (produce on file per variable per year with values for all coordinates)
-  tar_target(chelsa_raw_vars_years, extract_chelsa_var_year(coords, vars, years, path = "data/chelsa"), pattern = cross(vars, years), iteration = "list"),
+  tar_target(chelsa_raw_vars_years, extract_chelsa_var_year(coords, vars, years, 
+                                                            path = "data/envicloud/chelsa/chelsa_V2/GLOBAL/monthly"), 
+             pattern = cross(vars, years), iteration = "list"),
   
   # Merge chelsa files (produce one file per years)
   tar_target(chelsa_merged_years, merge_chelsa_year(chelsa_raw_vars_years, years), pattern = map(years), iteration = "list"),
