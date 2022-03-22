@@ -29,7 +29,7 @@ list(
   tar_target(chelsa_merged_years, merge_chelsa_year(chelsa_raw_vars_years, years), pattern = map(years), iteration = "list"),
   
   # Save chelsa files
-  tar_target(chelsa_filepaths, save_chelsa_year(chelsa_merged_years), pattern = map(chelsa_merged_years))
+  tar_target(chelsa_filepaths, save_chelsa_year(chelsa_merged_years), pattern = map(chelsa_merged_years)),
   
   
   # tar_target(
@@ -70,11 +70,11 @@ list(
   #   extract_terra_var_years(coords, var = "pet"),
   #   format = "file"
   # )  ,
-  # tar_target(
-  #   soil_terra_1983_2018,
-  #   extract_terra_var_years(coords, var = "soil"),
-  #   format = "file"
-  # )  ,
+  tar_target(
+     soil_terra_1983_2019,
+     extract_terra_var_years(coords, var = "soil"),
+     format = "file"
+   )  
   # tar_target(
   #   srad_terra_1983_2018,
   #   extract_terra_var_years(coords, var = "srad"),
