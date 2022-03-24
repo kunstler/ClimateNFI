@@ -17,7 +17,7 @@ list(
   tar_target(coords, add_mask_coords(coords_t)),
   
   # Use dynamic branching through years and variables
-  tar_target(years, seq(1983,2018)),
+  tar_target(years, seq(1983,2019)),
   tar_target(vars, c("pet", "pr", "tas", "tasmin", "tasmax")),
   
   # Extract chelsa values (produce on file per variable per year with values for all coordinates)
