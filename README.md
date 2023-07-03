@@ -24,7 +24,7 @@ Old mount
 
 
 New mount
-`sudo mount -t cifs //195.221.110.170/projets/chelsa ClimateNFI/data --verbose -o rw,user=gkunstler,domain=inra.local,vers=1.0`
+`sudo mount -t cifs //195.221.110.170/projets/chelsa ClimateNFI/data --verbose -o rw,user=gkunstler,domain=inra.local,vers=2.0`
 
 
 To download chelsa data
